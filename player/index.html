@@ -25,14 +25,14 @@
             } else {
                 // Check whether third-party cookie access has been granted
                 // to another same-site embed
-                            try {
-                                await document.requestStorageAccess();
-                                doThingsWithCookies();
-                            } catch (err) {
-                                // If there is an error obtaining storage access.
-                                console.error(`Error obtaining storage access: ${err}.
-                            Please sign in.`);
-                            }
+                document.addEventListener('click', async ()=> { try {
+                    await document.requestStorageAccess();
+                    doThingsWithCookies();
+                } catch (err) {
+                    // If there is an error obtaining storage access.
+                    console.error(`Error obtaining storage access: ${err}. Please sign in.`);
+                }})
+
             }
         }
     }
