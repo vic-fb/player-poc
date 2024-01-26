@@ -23,6 +23,7 @@
             if (hasAccess) {
                 // We have access to third-party cookies, so let's go
                 doThingsWithCookies();
+                alert(document.cookie);
             } else {
                 window.open('https://player-poc-ten.vercel.app')
                 document.addEventListener('click', async ()=> { try {
