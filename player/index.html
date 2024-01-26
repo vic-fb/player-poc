@@ -14,25 +14,40 @@
         document.cookie = "foo=bar;samesite=none;secure"
     }
 
+    const requestAccess = async () => {
+      try {
+        await fetch('/', {method: 'POST', body: {hello: 'hello'}})
+        await document.requestStorageAccess();
+        doThingsWithCookies();
+      } catch (err) {
+        // If there is an error obtaining storage access.
+        console.error(`Error obtaining storage access: ${err}. Please sign in.`);
+      }
+    }
     async function handleCookieAccess() {
         if (!document.hasStorageAccess) {
             doThingsWithCookies();
         } else {
-            const hasAccess = await document.hasStorageAccess();
+          const hasAccess = await document.hasStorageAccess();
             if (hasAccess) {
                 // We have access to third-party cookies, so let's go
                 doThingsWithCookies();
             } else {
-                document.addEventListener('click', async () => {
-                    try {
-                        await document.requestStorageAccess();
-                        doThingsWithCookies();
-                    } catch (err) {
-                        // If there is an error obtaining storage access.
-                        console.error(`Error obtaining storage access: ${err}.
-                            Please sign in.`);
-                    }
-                });
+              try {
+                await requestAccess()
+              } catch (err) {
+                console.error(`Error obtaining storage access: ${err}.  Please sign in.`);
+              }
+                // document.addEventListener('click', async () => {
+                //     try {
+                //         await document.requestStorageAccess();
+                //         doThingsWithCookies();
+                //     } catch (err) {
+                //         // If there is an error obtaining storage access.
+                //         console.error(`Error obtaining storage access: ${err}.
+                //             Please sign in.`);
+                //     }
+                // });
             }
         }
     }
