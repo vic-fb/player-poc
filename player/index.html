@@ -14,46 +14,30 @@
         document.cookie = "foo=bar;samesite=none;secure"
     }
 
-    const requestAccess = async () => {
-      try {
-        await fetch('/', {method: 'POST', body: {hello: 'hello'}})
-        await document.requestStorageAccess();
-        doThingsWithCookies();
-      } catch (err) {
-        // If there is an error obtaining storage access.
-        console.error(`Error obtaining storage access: ${err}. Please sign in.`);
-      }
-    }
     async function handleCookieAccess() {
         if (!document.hasStorageAccess) {
             doThingsWithCookies();
         } else {
-          const hasAccess = await document.hasStorageAccess();
+            const hasAccess = await document.hasStorageAccess();
             if (hasAccess) {
                 // We have access to third-party cookies, so let's go
                 doThingsWithCookies();
             } else {
-              try {
-                await requestAccess()
-              } catch (err) {
-                console.error(`Error obtaining storage access: ${err}.  Please sign in.`);
-              }
-                // document.addEventListener('click', async () => {
-                //     try {
-                //         await document.requestStorageAccess();
-                //         doThingsWithCookies();
-                //     } catch (err) {
-                //         // If there is an error obtaining storage access.
-                //         console.error(`Error obtaining storage access: ${err}.
-                //             Please sign in.`);
-                //     }
-                // });
+                // Check whether third-party cookie access has been granted
+                // to another same-site embed
+                            try {
+                                await document.requestStorageAccess();
+                                doThingsWithCookies();
+                            } catch (err) {
+                                // If there is an error obtaining storage access.
+                                console.error(`Error obtaining storage access: ${err}.
+                            Please sign in.`);
+                            }
             }
         }
     }
 
-    handleCookieAccess().then(() => console.log("called")).catch((err) => console.log('something went wrong', err))
-
+    handleCookieAccess().then(() => console.log("it worked")).catch((err) => console.log(err))
 </script>
 </body>
 </html>
