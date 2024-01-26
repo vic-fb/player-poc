@@ -8,6 +8,7 @@
 </head>
 <body>
 <div data-video-src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"></div>
+<button onClick="window.close()">Close me</button>
 <script type="module" src="./src/main.tsx"></script>
 <script>
     function doThingsWithCookies() {
@@ -23,19 +24,16 @@
                 // We have access to third-party cookies, so let's go
                 doThingsWithCookies();
             } else {
-                const a = window.open('https://player-poc-ten.vercel.app')
-                setTimeout(() => a.close(), 5000)
-
+                window.open('https://player-poc-ten.vercel.app')
+                document.addEventListener('click', async ()=> { try {
+                await document.requestStorageAccess();
+                doThingsWithCookies();
                 // Check whether third-party cookie access has been granted
                 // to another same-site embed
-                document.addEventListener('click', async ()=> { try {
-                    await document.requestStorageAccess();
-                    doThingsWithCookies();
                 } catch (err) {
                     // If there is an error obtaining storage access.
                     console.error(`Error obtaining storage access: ${err}. Please sign in.`);
                 }})
-
             }
         }
     }
