@@ -11,7 +11,7 @@
     <script type="module" src="./src/main.tsx"></script>
       <script>
         function doThingsWithCookies() {
-        document.cookie = "foo=bar"
+        document.cookie = "foo=bar;samesite=none;secure"
       }
 
         async function handleCookieAccess() {
