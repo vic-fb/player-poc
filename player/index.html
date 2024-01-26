@@ -23,21 +23,22 @@
                 // We have access to third-party cookies, so let's go
                 doThingsWithCookies();
             } else {
-                // Check whether third-party cookie access has been granted
-                // to another same-site embed
-                            try {
-                                await document.requestStorageAccess();
-                                doThingsWithCookies();
-                            } catch (err) {
-                                // If there is an error obtaining storage access.
-                                console.error(`Error obtaining storage access: ${err}.
+                document.addEventListener('click', async () => {
+                    try {
+                        await document.requestStorageAccess();
+                        doThingsWithCookies();
+                    } catch (err) {
+                        // If there is an error obtaining storage access.
+                        console.error(`Error obtaining storage access: ${err}.
                             Please sign in.`);
-                            }
+                    }
+                });
             }
         }
     }
 
-    handleCookieAccess().then(() => console.log("it worked")).catch((err) => console.log(err))
+    handleCookieAccess().then(() => console.log("called")).catch((err) => console.log('something went wrong', err))
+
 </script>
 </body>
 </html>
