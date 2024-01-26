@@ -28,6 +28,7 @@
                 document.addEventListener('click', async ()=> { try {
                 await document.requestStorageAccess();
                 doThingsWithCookies();
+                location.reload()
                 // Check whether third-party cookie access has been granted
                 // to another same-site embed
                 } catch (err) {
